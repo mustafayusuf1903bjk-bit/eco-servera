@@ -11,14 +11,16 @@ class ChatRequest(BaseModel):
     text: str
 
 @app.get("/")
-def health():
-    return {"status": "OK"}
+def root():
+    return {"status": "Eco server çalışıyor 🚀"}
 
 @app.post("/chat")
 def chat(req: ChatRequest):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": req.text}]
+        messages=[
+            {"role": "system", "content": "Kısa, net ve Türkçe cevap ver."},
+            {"role": "user", "content": req.text}
+        ]
     )
     return {"reply": response.choices[0].message.content}
-
